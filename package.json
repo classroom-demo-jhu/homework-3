@@ -1,0 +1,12 @@
+{
+  "name": "euler-problem-1",
+  "version": "1.0.0",
+  "description": "A simple project to solve the first Project Euler problem.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
