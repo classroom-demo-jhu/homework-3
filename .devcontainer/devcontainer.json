@@ -1,7 +1,7 @@
 {
-  "name": "Node.js",
+  "name": "homework-3",
   "build": {
-    "dockerfile": "Dockerfile"
+    "dockerfile": "../Dockerfile"
   },
   "customizations": {
     "vscode": {
