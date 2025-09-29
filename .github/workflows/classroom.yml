@@ -1,0 +1,76 @@
+name: Autograding Tests
+
+on:
+  - push
+  - workflow_dispatch
+  - repository_dispatch
+
+permissions:
+  checks: write
+  actions: read
+  contents: read
+
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    env:
+      NODE_DISABLE_COLORS: "1"
+      NO_COLOR: "1"
+      FORCE_COLOR: "0"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Test 1
+        id: test-1
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: Test 1
+          setup-command: ''
+          command: node bin/sum.mjs
+          input: '10'
+          expected-output: '23'
+          comparison-method: exact
+          timeout: 10
+          max-score: 1
+
+      - name: Test 2
+        id: test-2
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: Test 2
+          setup-command: ''
+          command: node bin/sum.mjs
+          input: '20'
+          expected-output: '78'
+          comparison-method: exact
+          timeout: 10
+          max-score: 1
+
+      - name: Test 3
+        id: test-3
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: Test 3
+          setup-command: ''
+          command: node bin/sum.mjs
+          input: '1000'
+          expected-output: '233168'
+          comparison-method: exact
+          timeout: 10
+          max-score: 1
+
+      - name: Autograding Reporter
+        uses: classroom-resources/autograding-grading-reporter@v1
+        env:
+          TEST-1_RESULTS: "${{ steps.test-1.outputs.result }}"
+          TEST-2_RESULTS: "${{ steps.test-2.outputs.result }}"
+          TEST-3_RESULTS: "${{ steps.test-3.outputs.result }}"
+        with:
+          runners: test-1,test-2,test-3
